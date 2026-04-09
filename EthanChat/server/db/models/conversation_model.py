@@ -1,6 +1,6 @@
 from sqlalchemy import JSON, Column, DateTime, Integer, String, func
 
-from EthanChat.EthanChat.server.db.base import Base
+from EthanChat.server.db.base import Base
 
 class ConversationModel(Base):
     """

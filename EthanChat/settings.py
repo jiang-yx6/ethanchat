@@ -4,7 +4,7 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # 获取项目根目录
-ROOT = Path(".").resolve()
+ROOT = Path(__file__).resolve().parent
 
 class BasicSettings(BaseSettings):
     HOST: str = "0.0.0.0"
@@ -12,6 +12,7 @@ class BasicSettings(BaseSettings):
 
     SQLALCHEMY_DATABASE_URI: str = f"sqlite:///{ROOT}/data/knowledge_base/db.sqlite"
     KB_ROOT_PATH: str = str(ROOT / "data" / "knowledge_base")
+    DB_ROOT_PATH: str = str("sqlite://" / ROOT / "data" / "knowledge_base/db.sqlite" )
     OPEN_CROSS_DOMAIN: bool = True
 
     model_config = SettingsConfigDict(
@@ -25,7 +26,7 @@ class KBSettings(BaseSettings):
     DEFAULT_VS_TYPE: str = "faiss"
     CHUNK_SIZE: int = 750
     OVERLAP_SIZE: int = 150
-    SCORE_THRESHOLD: float = 1.0
+    SCORE_THRESHOLD: float = 0.4
     VECTOR_SEARCH_TOP_K: int = 5
 
     model_config = SettingsConfigDict(
