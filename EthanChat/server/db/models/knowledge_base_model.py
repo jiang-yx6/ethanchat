@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import BaseModel
 from sqlalchemy import Column, DateTime, Integer, String, func
 
-from EthanChat.EthanChat.server.db.base import Base
+from EthanChat.server.db.base import Base
 
 class KnowledgeBaseModel(Base):
     """

@@ -1,12 +1,12 @@
 from sqlalchemy import JSON,Boolean,Column,DateTime,Float,Integer,String,func
-from EthanChat.EthanChat.server.db.base import Base
+from EthanChat.server.db.base import Base
 
 
 class KnowledgeFileModel(Base):
     """
     知识文件模型
     """
-    __tablename__ = "knowledge_name"
+    __tablename__ = "knowledge_file"
 
     id = Column(Integer, primary_key=True, autoincrement=True,comment="知识文件id")
 
@@ -21,7 +21,6 @@ class KnowledgeFileModel(Base):
     file_mtime = Column(Float, default=0.0, comment="文件修改时间")
     file_size = Column(Integer, default=0, comment="文件大小")
 
-    custom_docs = Column(Boolean, default=False, comment="是否自定义docs")
     docs_count = Column(Integer, default=0, comment="切分文档数量")
     create_time = Column(DateTime, default=func.now(), comment="创建时间")
 

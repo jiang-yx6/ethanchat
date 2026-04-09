@@ -1,6 +1,6 @@
 from sqlalchemy import JSON, Boolean, Column, DateTime, Float, Integer, String, func
 
-from chatchat.server.db.base import Base
+from EthanChat.server.db.base import Base
 
 
 class SummaryChunkModel(Base):
