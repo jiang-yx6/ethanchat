@@ -50,8 +50,7 @@ class KBService(ABC):
         self.embed_model = embed_model
         self.kb_path = get_kb_path(self.kb_name)
         self.doc_path = get_doc_path(self.kb_name)
-    
-        # self.do_init()
+        self.do_init()
 
     def add_doc(self, kb_file: KnowledgeFile):
         #加载文件
@@ -87,13 +86,12 @@ class KBService(ABC):
     
     def search_docs(self, 
                     query: str, 
-                    topk: int = 5,
+                    top_k: int = 5,
                     score_threshold: float = Settings.kb_settings.SCORE_THRESHOLD
                 )->List[Document]:
         if not check_embed_model(self.embed_model)[0]:
             return []
-        
-        return self.do_search(query, topk, score_threshold)
+        return self.do_search(query, top_k, score_threshold)
 
     @abstractmethod
     def do_init(self): 
@@ -146,6 +144,7 @@ class ChromaKBService(KBService):
             embedding_function=get_embedding_model(self.embed_model)
         )
 
+        print("successfully init chroma")
     def do_add_doc(self, docs: List[Document]):        
         ids = [str(uuid.uuid1()) for _ in range(len(docs))]
         metadatas = [doc.metadata for doc in docs]
@@ -159,13 +158,14 @@ class ChromaKBService(KBService):
     def do_search(
             self, query: str, top_k: int, score_thrshold:float= Settings.kb_settings.SCORE_THRESHOLD
     ) -> List[Tuple[Document, float]]:
-        retriever = self.chroma.as_retriever(
-            search_type="similarity_score_threshold",
-            search_kwargs={"score_threshold": score_thrshold, "k": top_k}
-        )
+        test_results = self.chroma.similarity_search_with_score(query, k=top_k)
+        # retriever = self.chroma.as_retriever(
+        #     search_type="similarity_score_threshold",
+        #     search_kwargs={"score_threshold": score_thrshold, "k": top_k}
+        # )
+        # docs = retriever.invoke(query)[:top_k]
 
-        docs = retriever.invoke(query)[:top_k]
-        return docs
+        return test_results
 
 
 # if __name__ == '__main__':
